@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 //Views
 import Home from "../views/Home.vue"
-import About from "../views/About.vue"
 
 //Inizializzazione delle routes in una variabile
 const routes = [
@@ -15,7 +14,7 @@ const routes = [
     {
         path: '/about',
         name: 'About',
-        component: About
+        component: ()=>import('../views/About.vue')
     },
 ];
 
