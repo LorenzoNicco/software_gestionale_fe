@@ -1,7 +1,7 @@
 //Importazione del router
 import { createRouter, createWebHistory } from 'vue-router'
 
-//Views
+//Views (non lazy loading)
 import Home from "../views/Home.vue"
 
 //Inizializzazione delle routes in una variabile
@@ -14,7 +14,7 @@ const routes = [
     {
         path: '/about',
         name: 'About',
-        component: ()=>import('../views/About.vue')
+        component: ()=>import('../views/About.vue') //Questa sintassi permette il lazy loading della rotta
     },
 ];
 
