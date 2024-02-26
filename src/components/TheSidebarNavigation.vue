@@ -10,7 +10,7 @@
         <nav>
             <ul>
                 <li>
-                    
+                    <font-awesome-icon :icon="['fas', 'house']" />
                 </li>
             </ul>
         </nav>
