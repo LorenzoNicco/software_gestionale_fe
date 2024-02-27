@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 //Views (non lazy loading)
 import Home from "../views/Home.vue"
+import Profile from "../views/Profile.vue"
+import Login from "../views/authentication/Login.vue"
 
 //Inizializzazione delle routes in una variabile
 const routes = [
@@ -12,14 +14,19 @@ const routes = [
         component: Home
     },
     {
-        path: '/about',
-        name: 'About',
-        component: ()=>import('../views/About.vue') //Questa sintassi permette il lazy loading della rotta
+        path: '/login',
+        name: 'Login',
+        component: Login
     },
     {
         path: '/profile',
         name: 'Profile',
-        component: ()=>import('../views/Profile.vue')
+        component: Profile
+    },
+    {
+        path: '/about',
+        name: 'About',
+        component: ()=>import('../views/About.vue') //Questa sintassi permette il lazy loading della rotta
     },
 ];
 
