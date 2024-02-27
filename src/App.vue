@@ -12,10 +12,7 @@
   <div id="main-container" class="flex h-screen">
     <TheSidebarNavigation />
   
-    <div>
-      <router-link to="/" class="btn btn-primary">Home</router-link>
-      <router-link to="/about" class="btn btn-primary">About</router-link>
-    
+    <div>   
       <router-view></router-view>
     </div>
   </div>

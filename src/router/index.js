@@ -16,6 +16,11 @@ const routes = [
         name: 'About',
         component: ()=>import('../views/About.vue') //Questa sintassi permette il lazy loading della rotta
     },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: ()=>import('../views/Profile.vue')
+    },
 ];
 
 //Inizializzazione del router
