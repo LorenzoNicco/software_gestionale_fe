@@ -12,7 +12,7 @@
             <nav>
                 <ul>
                     <li>                    
-                        <router-link to="/" class="btn w-full">
+                        <router-link to="/" class="btn btn-outline my-aside-btn">
                             <font-awesome-icon :icon="['fas', 'house']" />
     
                             <span>Home</span>
@@ -20,7 +20,7 @@
                     </li>
                     
                     <li>                    
-                        <router-link to="/about">
+                        <router-link to="/about" class="btn btn-outline btn btn-outline my-aside-btn">
                             <font-awesome-icon :icon="['fas', 'house']" />
     
                             <span>About</span>
@@ -34,7 +34,7 @@
         <nav>
             <ul>
                 <li>
-                    <router-link to="/profile">
+                    <router-link to="/profile" class="btn btn-outline btn btn-outline my-aside-btn">
                             <font-awesome-icon :icon="['fas', 'user']" />
     
                             <span>Profilo</span>
