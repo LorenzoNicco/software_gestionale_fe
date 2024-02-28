@@ -29,7 +29,7 @@ axios.interceptors.response.use(
             // Reset dell'axios Authorization header:
             axios.defaults.headers.common['Authorization'] = 'Bearer';
             // Redirect l'utente alla login page:
-            router.push({ name: 'login' });
+            router.push({ name: 'Login' });
         }
         return Promise.reject(error);
     }

@@ -11,19 +11,25 @@
 
     const message = ref();
 
+    //Funzione per l'invio del form di login
     function submit() {
+        //Resetto il messaggio di errore precedente (se presente)
         message.value = '';
+
+        //Invio dei dati del form tramite POST. Se il login ha successo, si salva il token per l'autenticazione e si viene reindirizzati alla home
         axios.post('login', form)
         .then(response => {
             localStorage.setItem('token', response.data.token);
             axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-            router.push({ name: 'user' });
+            router.push({ name: 'Home' });
         })
+        //Se avviene un errore, viene mostrato il messaggio
         .catch(error => {
             if (error.response.status === 422) {
                 message.value = error.response.data.message;
             }
         })
+        //Cancello la password inviata col form per sicurezza
         .finally(() => form.password = '');
     }
 </script>
