@@ -10,21 +10,14 @@
 
     //Reperisco i dati dell'utente
     function fetchUserDetails() {
-        axios.get('user').then(response => {
+        axios.get("http://localhost:8000/api/user").then(response => {
             userData.user = response.data;
         });
     }
 
     //Funzione per il logout
     function signOut() {
-        axios.post('logout').finally(() => {
-            //Elimino il token salvato in locale
-            localStorage.removeItem('token');
-            //Resetto l'axios authentication header
-            axios.defaults.headers.common['Authorization'] = 'Bearer';
-            //Reindirizzo l'utente alla pagina di login
-            router.push({ name: 'Login' });
-        });
+        axios.post("http://localhost:8000/logout");
     }
 
     onMounted(fetchUserDetails);
