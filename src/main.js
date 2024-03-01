@@ -12,6 +12,26 @@ import axios from 'axios';
 // Settaggio globale di axios
 window.axios = axios;
 
+//Configurazione di axios per includere le credenziali
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+
+axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    // if (error.request.status === 403) {
+    //     // redirect to a 403 page informing
+    //     // the action is forbidden
+    //     router.push('/403');
+    // }
+    
+    if ([401, 419].includes(error.request.status)) {
+        // redirect al login
+        router.push('/Login');
+    }
+    return Promise.reject(error);
+});
+
 //Importazione FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'

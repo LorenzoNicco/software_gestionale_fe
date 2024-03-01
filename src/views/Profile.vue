@@ -1,26 +1,30 @@
-<script setup>
-    import { onMounted, reactive } from 'vue';
-    import { useRouter } from 'vue-router';
+<script>
+    export default {
+        data() {
+            return {
+                userData: {}, //Conterrà i dati dell'utente autenticato
+            }
+        },
+        methods: {
+            //Reperisco i dati dell'utente e li salvo in userData
+            fetchUserDetails() {
+                axios.get("http://localhost:8000/api/user")
+                .then((response) => {
+                    this.userData = response.data;
+                });
+            },
 
-    const router = useRouter();
-
-    const userData = reactive({
-        user: {}
-    });
-
-    //Reperisco i dati dell'utente
-    function fetchUserDetails() {
-        axios.get("http://localhost:8000/api/user").then(response => {
-            userData.user = response.data;
-        });
+            //Funzione per il logout
+            signOut() {
+                axios.post("http://localhost:8000/logout");
+                this.$router.push("/login");
+            }
+        },
+        mounted() {
+            //Attivo la funzione per reperire i dati dell'utente
+            this.fetchUserDetails();
+        }
     }
-
-    //Funzione per il logout
-    function signOut() {
-        axios.post("http://localhost:8000/logout");
-    }
-
-    onMounted(fetchUserDetails);
 </script>
 
 <template>
@@ -28,8 +32,8 @@
         <h1 class="text-4xl font-bold">Profilo</h1>
 
         <div>
-            <div>User ID: {{ userData.user.id }}</div>
-            <div>Email Address: {{ userData.user.email }}</div>
+            <div>User ID: {{ userData.id }}</div>
+            <div>Email Address: {{ userData.email }}</div>
             <div>
                 <button @click="signOut" class="btn">Sign Out</button>
             </div>
