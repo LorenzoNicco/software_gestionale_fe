@@ -20,7 +20,7 @@
 
 <template>
   <div id="main-container" class="flex h-screen">
-    <TheSidebarNavigation v-if="this.$route.path != '/login'" />
+    <TheSidebarNavigation v-if="this.$route.name != 'Login'" />
   
     <div>
       <router-view></router-view>
