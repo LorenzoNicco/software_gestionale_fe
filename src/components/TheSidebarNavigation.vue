@@ -1,5 +1,5 @@
 <template>
-    <aside id="sidebar" class="w-1/5 h-full flex flex-col justify-between p-2 bg-red-500">
+    <aside id="sidebar" class="w-1/6 h-full flex flex-col justify-between p-2 bg-cyan-600">
         <!-- Sezione superiore -->
         <div>
             <!-- LOGO -->
@@ -20,10 +20,10 @@
                     </li>
                     
                     <li>                    
-                        <router-link to="/about" class="btn btn-outline btn btn-outline my-aside-btn">
-                            <font-awesome-icon :icon="['fas', 'house']" />
+                        <router-link to="/note" class="btn btn-outline btn btn-outline my-aside-btn">
+                            <font-awesome-icon :icon="['fas', 'note-sticky']" />
     
-                            <span>About</span>
+                            <span>Note</span>
                         </router-link>
                     </li>
                 </ul>

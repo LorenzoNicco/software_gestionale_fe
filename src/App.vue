@@ -22,7 +22,7 @@
   <div id="main-container" class="flex h-screen">
     <TheSidebarNavigation v-if="this.$route.name != 'Login'" />
   
-    <div>
+    <div class="p-4 w-full">
       <router-view></router-view>
     </div>
   </div>

@@ -54,7 +54,7 @@ export default {
 </script>
 
 <template>
-    <div class="h-full w-screen flex justify-center items-center bg-red-500">        
+    <div class="h-full flex justify-center items-center bg-red-500">        
         <div class="bg-white rounded">
             <h1 class="text-4xl font-bold">Login o registrati</h1>
 
