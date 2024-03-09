@@ -24,9 +24,9 @@ const routes = [
         component: Profile
     },
     {
-        path: '/about',
-        name: 'About',
-        component: ()=>import('../views/About.vue') //Questa sintassi permette il lazy loading della rotta
+        path: '/note',
+        name: 'Note',
+        component: ()=>import('../views/Notes.vue') //Questa sintassi permette il lazy loading della rotta
     },
 ];
 
