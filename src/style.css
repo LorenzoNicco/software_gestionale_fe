@@ -2,21 +2,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/**************************************************************
-OVERRIDE
-**************************************************************/
-/* Sovrascrittura per pulsanti in aside. Da aggiungere a btn e btn-outline */
-.my-aside-btn {
-    color: white;
-    border-color: transparent;
-    width: 100%;
-    height: 2rem;
-    min-height: 2rem;
-    justify-content: start;
-}
-
-.my-aside-btn:hover {
-    color: black;
-    background-color: white;
-    border-color: white;
-}

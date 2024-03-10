@@ -1,8 +1,14 @@
 import { createApp } from 'vue'
-import './style.css'
-//Importazione fle css con reset delle regole per tailwind
-import './output.css'
 import App from './App.vue'
+
+//Importazione file CSS con collegamenti a tailwind
+import './style.css'
+
+//Importazione fle CSS con reset delle regole per tailwind
+import './output.css'
+
+//Importazione file CSS con regole di override
+import './override.css'
 
 //Importazione del router dal file dedicato
 import router from './router/index.js'
@@ -16,6 +22,7 @@ window.axios = axios;
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
 
+//Redirect al login in caso di utente non autenticato
 axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
