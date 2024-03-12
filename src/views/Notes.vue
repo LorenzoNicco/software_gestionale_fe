@@ -65,7 +65,7 @@ export default {
             <ul>
                 <!-- Elemento della lista delle note -->
                 <li v-for="singleNote in notesData" class="collapse collapse-arrow shadow-md">
-                    <input type="radio" name="my-accordion-2" checked="checked" /> 
+                    <input type="radio" name="my-accordion-2" /> 
 
                     <!-- Titolo della nota -->
                     <div class="collapse-title text-xl font-medium">{{ singleNote.title }}</div>
