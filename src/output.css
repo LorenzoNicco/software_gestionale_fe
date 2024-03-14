@@ -2171,6 +2171,14 @@ details.collapse summary::-webkit-details-marker {
   justify-content: space-between;
 }
 
+.self-start {
+  align-self: flex-start;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
 .overflow-y-auto {
   overflow-y: auto;
 }

@@ -4,6 +4,7 @@ export default {
         return {
             userData: '',
             notesData: '',
+            updateCollapseFlag: false,
             formStoreNotes: { //Campi per le nuove note
                 title: '',
                 noteBody: ''
@@ -55,6 +56,13 @@ export default {
             let updateAccordion = document.getElementById(targetId);
             updateAccordion.classList.toggle('collapse-close');
             updateAccordion.classList.toggle('collapse-open');
+
+            //Setto la flag per cambiare l'icona del pulsante del collapse
+            if(this.updateCollapseFlag === false) {
+                this.updateCollapseFlag = true;
+            } else {
+                this.updateCollapseFlag = false;
+            }
         },
 
         //Funzione per modificare le note
@@ -100,6 +108,9 @@ export default {
                     updateCollapseList[i].classList.add('collapse-close');
                 }
             }
+
+            //Resetto la flag per l'icona del collapse
+            this.updateCollapseFlag = false;
         },
 
         //Funzione per aprire il modale di cancellazione nota
@@ -160,7 +171,8 @@ export default {
                         <div>
                             <!-- Pulsante di modifica nota -->
                             <button v-on:click="updateAccordionToggle(singleNote.id)" class="btn btn-warning btn-sm btn-square">
-                                <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                                <font-awesome-icon v-if="updateCollapseFlag === false" :icon="['fas', 'pen-to-square']" /> <!-- Icona con il collapse chiuso-->
+                                <font-awesome-icon v-else :icon="['fas', 'xmark']" /> <!-- Icona con il collapse aperto-->
                             </button>
                             
                             <!-- Pulsante di elimina nota -->
@@ -189,12 +201,12 @@ export default {
 
                     <!-- Collapse per la modifica delle note -->
                     <div :id="singleNote.id" class="collapse collapse-close collapse_update"> 
-                        <form :id="'update_note_' + singleNote.id" class="collapse-content update_note_form">
+                        <form :id="'update_note_' + singleNote.id" class="collapse-content update_note_form flex flex-col">
                             <input v-model="formUpdateNotes.title" type="text" placeholder="Nuovo titolo" class="input input-bordered w-full" name="title" minlength="1" maxlength="50" required />
 
                             <textarea v-model="formUpdateNotes.noteBody" class="textarea textarea-bordered my-4" placeholder="Nuovo testo della nota" name="noteBody" required></textarea>
 
-                            <input v-on:click.prevent="noteUpdate('update_note_' + singleNote.id, singleNote.id)" type="submit" value="Invia" class="btn btn-success">
+                            <input v-on:click.prevent="noteUpdate('update_note_' + singleNote.id, singleNote.id)" type="submit" value="Invia" class="btn btn-success self-end">
                         </form>
                     </div>
                 </li>
