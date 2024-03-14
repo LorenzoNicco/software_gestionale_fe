@@ -100,9 +100,37 @@ export default {
                     updateCollapseList[i].classList.add('collapse-close');
                 }
             }
+        },
+
+        //Funzione per aprire il modale di cancellazione nota
+        openDeleteModal(modalId) {
+            const deleteTargetNoteModal = document.getElementById(modalId);
+            deleteTargetNoteModal.showModal();
+        },
+
+        //Funzione per chiudere il modale di cancellazione nota
+        closeDeleteModal(modalId) {
+            const deleteTargetNoteModal = document.getElementById(modalId);
+            deleteTargetNoteModal.close();
+        },
+
+        //Funzione per eliminare la nota
+        deleteNote(noteTitle, noteId) {
+            //Chiudo la modale di cancellazione
+            this.closeDeleteModal('delete_note_' + noteId + '_modal');
+
+            //Elimino la nota
+            axios.delete("http://localhost:8000/api/notes/" + noteId)
+            .then((response) => {          
+                //Mostro all'utente un messaggio di conferma         
+                alert('Nota "' + noteTitle + '" eliminata con successo.');
+
+                //Refresho le note esistenti
+                this.notesDataRethrieve();                
+            });
         }
     },
-    mounted() {
+    created() {
         this.fetchUserDetails();
         this.notesDataRethrieve();
     }
@@ -136,12 +164,30 @@ export default {
                             </button>
                             
                             <!-- Pulsante di elimina nota -->
-                            <button class="btn btn-error btn-sm btn-square ms-2">
+                            <button class="btn btn-error btn-sm btn-square ms-2" v-on:click="openDeleteModal('delete_note_' + singleNote.id + '_modal')">
                                 <font-awesome-icon :icon="['fas', 'trash-can']" />
                             </button>
+
+                            <!-- Modale di eliminazione nota -->
+                            <dialog :id="'delete_note_' + singleNote.id + '_modal'" class="modal">
+                                <div class="modal-box">
+                                    <h3 class="font-bold text-lg">Sicuro di voler eliminare la nota "{{ singleNote.title }}"?</h3>
+
+                                    
+
+                                    <div class="modal-action">
+                                        <button class="btn btn-error ms-2" v-on:click="deleteNote(singleNote.title, singleNote.id)">Conferma</button>
+
+                                        <form method="dialog">
+                                            <button class="btn btn-success">Annulla</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
                         </div>
                     </div>
 
+                    <!-- Collapse per la modifica delle note -->
                     <div :id="singleNote.id" class="collapse collapse-close collapse_update"> 
                         <form :id="'update_note_' + singleNote.id" class="collapse-content update_note_form">
                             <input v-model="formUpdateNotes.title" type="text" placeholder="Nuovo titolo" class="input input-bordered w-full" name="title" minlength="1" maxlength="50" required />
