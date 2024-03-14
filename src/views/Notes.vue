@@ -113,22 +113,21 @@ export default {
             this.updateCollapseFlag = false;
         },
 
-        //Funzione per aprire il modale di cancellazione nota
-        openDeleteModal(modalId) {
-            const deleteTargetNoteModal = document.getElementById(modalId);
-            deleteTargetNoteModal.showModal();
-        },
+        //Funzione per aprire o chiudere le modali
+        openOrCloseModal(modalId) {
+            const targetModal = document.getElementById(modalId);
 
-        //Funzione per chiudere il modale di cancellazione nota
-        closeDeleteModal(modalId) {
-            const deleteTargetNoteModal = document.getElementById(modalId);
-            deleteTargetNoteModal.close();
+            if(targetModal.hasAttribute(open)) {
+                targetModal.close();
+            } else {
+                targetModal.showModal();
+            }
         },
 
         //Funzione per eliminare la nota
         deleteNote(noteTitle, noteId) {
             //Chiudo la modale di cancellazione
-            this.closeDeleteModal('delete_note_' + noteId + '_modal');
+            this.openOrCloseModal('delete_note_' + noteId + '_modal');
 
             //Elimino la nota
             axios.delete("http://localhost:8000/api/notes/" + noteId)
@@ -176,7 +175,7 @@ export default {
                             </button>
                             
                             <!-- Pulsante di elimina nota -->
-                            <button class="btn btn-error btn-sm btn-square ms-2" v-on:click="openDeleteModal('delete_note_' + singleNote.id + '_modal')">
+                            <button class="btn btn-error btn-sm btn-square ms-2" v-on:click="openOrCloseModal('delete_note_' + singleNote.id + '_modal')">
                                 <font-awesome-icon :icon="['fas', 'trash-can']" />
                             </button>
 
@@ -215,7 +214,7 @@ export default {
 
         <!-- Pulsante di aggiunta nota -->
         <div class="fixed bottom-5 right-5">
-            <button class="btn btn-success" onclick="insert_note_modal.showModal()">
+            <button class="btn btn-success" v-on:click="openOrCloseModal('insert_note_modal')">
                 <span>Nuova nota</span> <font-awesome-icon :icon="['fas', 'plus']" />
             </button>
 
@@ -234,8 +233,8 @@ export default {
                     </form>
 
                     <div class="modal-action">
-                        <form method="dialog">
-                            <button class="btn">Close</button>
+                        <form method="dialog" class="w-full">
+                            <button class="btn btn-error w-full">Annulla</button>
                         </form>
                     </div>
                 </div>
