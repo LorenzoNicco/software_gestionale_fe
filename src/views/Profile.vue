@@ -2,18 +2,9 @@
     export default {
         data() {
             return {
-                userData: {}, //Conterrà i dati dell'utente autenticato
             }
         },
         methods: {
-            //Reperisco i dati dell'utente e li salvo in userData
-            fetchUserDetails() {
-                axios.get("http://localhost:8000/api/user")
-                .then((response) => {
-                    this.userData = response.data;
-                });
-            },
-
             //Funzione per il logout
             signOut() {
                 axios.post("http://localhost:8000/logout");
@@ -21,9 +12,10 @@
             }
         },
         mounted() {
-            //Attivo la funzione per reperire i dati dell'utente
-            this.fetchUserDetails();
-        }
+        },
+        props: [
+            "userData" //Dati utente passati da App.vue
+        ]
     }
 </script>
 

@@ -2,7 +2,6 @@
 export default {
     data() {
         return {
-            userData: '',
             notesData: '',
             updateCollapseFlag: false,
             formStoreNotes: { //Campi per le nuove note
@@ -16,14 +15,6 @@ export default {
         }
     },
     methods: {
-        //Reperisco i dati dell'utente e li salvo in userData
-        fetchUserDetails() {
-            axios.get("http://localhost:8000/api/user")
-            .then((response) => {
-                this.userData = response.data;
-            });
-        },
-
         //Funzione per reperire le note esistenti
         notesDataRethrieve() {            
             axios.get("http://localhost:8000/api/notes")
@@ -45,6 +36,7 @@ export default {
 
                 //Svuoto tutti i campi del form e deil data
                 this.formEntriesReset(this.formStoreNotes, 'new_note_form');
+                console.log(response);
             });
         },
 
@@ -141,14 +133,16 @@ export default {
         }
     },
     created() {
-        this.fetchUserDetails();
         this.notesDataRethrieve();
-    }
+    },
+    props: [
+        "userData" //Dati utente passati da App.vue
+    ]
 }
 </script>
 
 <template>
-    <div class="notes relative">
+    <div class="notes relative pb-14">
         <!-- Titolo pagina -->
         <div class="w-full p-4 rounded-xl bg-orange-300 shadow-md mb-4">
             <h1 class="text-4xl font-bold">Note</h1>

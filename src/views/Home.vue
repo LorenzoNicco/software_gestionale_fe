@@ -8,8 +8,10 @@ export default {
 
     },
     mounted() {
-        axios.get("http://localhost:8000/api/user");
-    }
+    },
+    props: [
+        "userData" //Dati utente passati da App.vue
+    ]
 }
 </script>
 
