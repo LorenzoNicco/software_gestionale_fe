@@ -11,7 +11,8 @@ export default {
                 email: '',
                 password: '',
                 password_confirmation: ''
-            }
+            },
+            loginFlag: true
         }
     },
     methods: {
@@ -31,6 +32,7 @@ export default {
                 });
             });
         },
+        
         //Funzione per l'invio del form di registrazione
         submitRegister() {
             axios.get("http://localhost:8000/sanctum/csrf-cookie")
@@ -54,12 +56,13 @@ export default {
 </script>
 
 <template>
-    <div class="h-full flex justify-center items-center bg-red-500">        
-        <div class="bg-white rounded">
-            <h1 class="text-4xl font-bold">Login o registrati</h1>
+    <div class="h-full flex justify-center items-center bg-sky-500">        
+        <div class="bg-white rounded-xl text-center p-8">
+            <h1 v-if="loginFlag === true" class="text-4xl font-bold">Esegui il login</h1>
+            <h1 v-else class="text-4xl font-bold">Crea un account</h1>
 
-            <form @submit.prevent="submitLogin">
-                <div class="form-group">
+            <form v-if="loginFlag === true" @submit.prevent="submitLogin" class="py-5">
+                <div class="form-group mb-2">
                     <label>Email</label>
                     <input v-model="formLogin.email" type="text" class="input input-bordered w-full max-w-xst">
                 </div>
@@ -67,34 +70,38 @@ export default {
                     <label>Password</label>
                     <input v-model="formLogin.password" type="password" class="input input-bordered w-full max-w-xst">
                 </div>
-                <div class="form-group text-center">
-                    <button type="submit" class="form-input btn">Login</button>
+                <div class="form-group text-center pt-3">
+                    <button type="submit" class="form-input btn bg-orange-300 w-full">Login</button>
                 </div>
             </form>
-    
-            <hr class="border-black my-5">
-    
-            <form @submit.prevent="submitRegister">
-                <div class="form-group">
+            <form v-else @submit.prevent="submitRegister" class="py-5">
+                <div class="form-group mb-2">
                     <label>Nome</label>
-                    <input v-model="formRegister.name" type="text" class="input input-bordered w-full max-w-xs">
+                    <input v-model="formRegister.name" type="text" class="input input-bordered w-full">
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label>Email</label>
-                    <input v-model="formRegister.email" type="text" class="input input-bordered w-full max-w-xs">
+                    <input v-model="formRegister.email" type="text" class="input input-bordered w-full">
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-2">
                     <label>Password</label>
-                    <input v-model="formRegister.password" type="password" class="input input-bordered w-full max-w-xs">
+                    <input v-model="formRegister.password" type="password" class="input input-bordered w-full">
                 </div>
                 <div class="form-group">
                     <label>Conferma password</label>
-                    <input v-model="formRegister.password_confirmation" type="password" class="input input-bordered w-full max-w-xs">
+                    <input v-model="formRegister.password_confirmation" type="password" class="input input-bordered w-full">
                 </div>
-                <div class="form-group text-center">
-                    <button type="submit" class="form-input btn">Registrati</button>
+                <div class="form-group text-center pt-3">
+                    <button type="submit" class="form-input btn bg-orange-300 w-full">Registrati</button>
                 </div>
             </form>
+
+            <div>
+                <h4>Oppure 
+                    <span v-if="loginFlag === true" v-on:click="loginFlag = false" class="font-semibold hover:text-sky-700 hover:cursor-pointer">crea un account</span>
+                    <span v-else v-on:click="loginFlag = true" class="font-semibold hover:text-sky-700 hover:cursor-pointer">esegui il login</span>
+                </h4>
+            </div>
         </div>
     </div>
 </template>

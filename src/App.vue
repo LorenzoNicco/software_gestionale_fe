@@ -4,7 +4,7 @@
   export default {
     data() {
       return {
-        userData: ''
+        userData: '',
       }
     },
     components: {
@@ -19,7 +19,7 @@
         });
       },
     },
-    mounted() {
+    created() {
       this.fetchUserDetails();
     }
   }
@@ -29,7 +29,7 @@
   <div id="main-container" class="flex h-screen">
     <TheSidebarNavigation v-if="this.$route.name != 'Login'" />
   
-    <div class="p-4 w-full h-full overflow-y-auto">
+    <div class="w-full h-full overflow-y-auto" v-bind:class="{'p-4': this.$route.name != 'Login'}">
       <router-view :userData="userData"></router-view>
     </div>
   </div>
