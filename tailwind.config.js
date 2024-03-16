@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   //Selezione dei file dove tailwind va ad agire
-  content: ["./src/**/*.{html,js,vue}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{html,js,vue}"
+  ],
   theme: {
     extend: {},
   },
