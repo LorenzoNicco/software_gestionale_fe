@@ -20,7 +20,7 @@
 </script>
 
 <template>
-    <div class="about">
+    <div class="profile">
         <h1 class="text-4xl font-bold">Profilo</h1>
 
         <div>

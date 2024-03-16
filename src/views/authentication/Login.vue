@@ -19,16 +19,20 @@ export default {
         //Funzione per l'invio del form di login
         submitLogin() {
             axios.get("http://localhost:8000/sanctum/csrf-cookie")
-            .then(()=>{
+            .then(() => {
                 axios.post("http://localhost:8000/login", {
                     email: this.formLogin.email,
                     password: this.formLogin.password
-                }).then(()=>{
+                }).then(() => {
                     this.$router.push("/");
                     axios.get("http://localhost:8000/api/user")
                     .then((response)=>{
                         console.log(response.data);
                     });                    
+                }).catch((error) => { //Catturo l'errore in caso di nome utente o password errati
+                    if(error.response.status == 422) {
+                        alert("Nome utente o password errati. Riprovare"); //TODO: sostituire questo alert con un messaggio di errore
+                    }
                 });
             });
         },
@@ -56,50 +60,34 @@ export default {
 </script>
 
 <template>
-    <div class="h-full flex justify-center items-center bg-sky-500">        
-        <div class="bg-white rounded-xl text-center p-8">
-            <h1 v-if="loginFlag === true" class="text-4xl font-bold">Esegui il login</h1>
+    <div class="h-full w-full flex justify-center items-center bg-sky-500">        
+        <div class="w-1/3 bg-white rounded-xl text-center p-8">
+            <h1 v-if="loginFlag === true" class="text-4xl font-bold">Effettua il login</h1>
             <h1 v-else class="text-4xl font-bold">Crea un account</h1>
 
             <form v-if="loginFlag === true" @submit.prevent="submitLogin" class="py-5">
-                <div class="form-group mb-2">
-                    <label>Email</label>
-                    <input v-model="formLogin.email" type="text" class="input input-bordered w-full max-w-xst">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input v-model="formLogin.password" type="password" class="input input-bordered w-full max-w-xst">
-                </div>
-                <div class="form-group text-center pt-3">
-                    <button type="submit" class="form-input btn bg-orange-300 w-full">Login</button>
-                </div>
+                <input v-model="formLogin.email" type="text" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
+
+                <input v-model="formLogin.password" type="password" placeholder="Password" class="input input-bordered w-full mb-4" minlength="8" maxlength="16" required>
+
+                <button type="submit" class="form-input btn bg-orange-300 w-full">Login</button>
             </form>
             <form v-else @submit.prevent="submitRegister" class="py-5">
-                <div class="form-group mb-2">
-                    <label>Nome</label>
-                    <input v-model="formRegister.name" type="text" class="input input-bordered w-full">
-                </div>
-                <div class="form-group mb-2">
-                    <label>Email</label>
-                    <input v-model="formRegister.email" type="text" class="input input-bordered w-full">
-                </div>
-                <div class="form-group mb-2">
-                    <label>Password</label>
-                    <input v-model="formRegister.password" type="password" class="input input-bordered w-full">
-                </div>
-                <div class="form-group">
-                    <label>Conferma password</label>
-                    <input v-model="formRegister.password_confirmation" type="password" class="input input-bordered w-full">
-                </div>
-                <div class="form-group text-center pt-3">
-                    <button type="submit" class="form-input btn bg-orange-300 w-full">Registrati</button>
-                </div>
+                <input v-model="formRegister.name" type="text" placeholder="Nome" class="input input-bordered w-full mb-2" pattern="(\b[A-ZÀ-ÿ]{1}[\-,a-z. ']+[ ]{1})+$" required>
+
+                <input v-model="formRegister.email" type="text" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
+
+                <input v-model="formRegister.password" type="password" placeholder="Password" class="input input-bordered w-full mb-2" minlength="8" maxlength="16" required>
+
+                <input v-model="formRegister.password_confirmation" type="password" placeholder="Conferma password" class="input input-bordered w-full mb-4" minlength="8" maxlength="16" required>
+
+                <button type="submit" class="form-input btn bg-orange-300 w-full">Registrati</button>
             </form>
 
             <div>
                 <h4>Oppure 
                     <span v-if="loginFlag === true" v-on:click="loginFlag = false" class="font-semibold hover:text-sky-700 hover:cursor-pointer">crea un account</span>
-                    <span v-else v-on:click="loginFlag = true" class="font-semibold hover:text-sky-700 hover:cursor-pointer">esegui il login</span>
+                    <span v-else v-on:click="loginFlag = true" class="font-semibold hover:text-sky-700 hover:cursor-pointer">effettua il login</span>
                 </h4>
             </div>
         </div>
