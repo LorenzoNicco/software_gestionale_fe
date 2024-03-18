@@ -1,144 +1,144 @@
 <script>
-export default {
-    data() {
-        return {
-            notesData: '',
-            updateCollapseFlag: false,
-            formStoreNotes: { //Campi per le nuove note
-                title: '',
-                noteBody: ''
+    export default {
+        data() {
+            return {
+                notesData: '',
+                updateCollapseFlag: false,
+                formStoreNotes: { //Campi per le nuove note
+                    title: '',
+                    noteBody: ''
+                },
+                formUpdateNotes: { //Campi per modificare le note
+                    title: '',
+                    noteBody: ''
+                },
+            }
+        },
+        methods: {
+            //Funzione per reperire le note esistenti
+            notesDataRethrieve() {            
+                axios.get("http://localhost:8000/api/notes")
+                .then((response) => {
+                    this.notesData = response.data.notes;
+                });
             },
-            formUpdateNotes: { //Campi per modificare le note
-                title: '',
-                noteBody: ''
+
+            //Funzione per creare delle nuove note
+            newNoteCreation() {
+                axios.post("http://localhost:8000/api/notes", {
+                    title: this.formStoreNotes.title,
+                    noteBody: this.formStoreNotes.noteBody,
+                    user_id: this.userData.id
+                })
+                .then((response) => {                
+                    //Refresho le note esistenti
+                    this.notesDataRethrieve();
+
+                    //Svuoto tutti i campi del form e deil data
+                    this.formEntriesReset(this.formStoreNotes, 'new_note_form');
+                    console.log(response);
+                });
             },
-        }
-    },
-    methods: {
-        //Funzione per reperire le note esistenti
-        notesDataRethrieve() {            
-            axios.get("http://localhost:8000/api/notes")
-            .then((response) => {
-                this.notesData = response.data.notes;
-            });
-        },
 
-        //Funzione per creare delle nuove note
-        newNoteCreation() {
-            axios.post("http://localhost:8000/api/notes", {
-                title: this.formStoreNotes.title,
-                noteBody: this.formStoreNotes.noteBody,
-                user_id: this.userData.id
-            })
-            .then((response) => {                
-                //Refresho le note esistenti
-                this.notesDataRethrieve();
+            //Funzione per aprire e chiudere la finestra di modifica della nota
+            updateAccordionToggle(targetId) {
+                this.formEntriesReset(this.formUpdateNotes, 'update_note_form');
 
-                //Svuoto tutti i campi del form e deil data
-                this.formEntriesReset(this.formStoreNotes, 'new_note_form');
-                console.log(response);
-            });
-        },
+                //Apro o chiudo il contenitore del form di modifica della nota in questione
+                let updateAccordion = document.getElementById(targetId);
+                updateAccordion.classList.toggle('collapse-close');
+                updateAccordion.classList.toggle('collapse-open');
 
-        //Funzione per aprire e chiudere la finestra di modifica della nota
-        updateAccordionToggle(targetId) {
-            this.formEntriesReset(this.formUpdateNotes, 'update_note_form');
-
-            //Apro o chiudo il contenitore del form di modifica della nota in questione
-            let updateAccordion = document.getElementById(targetId);
-            updateAccordion.classList.toggle('collapse-close');
-            updateAccordion.classList.toggle('collapse-open');
-
-            //Setto la flag per cambiare l'icona del pulsante del collapse
-            if(this.updateCollapseFlag === false) {
-                this.updateCollapseFlag = true;
-            } else {
-                this.updateCollapseFlag = false;
-            }
-        },
-
-        //Funzione per modificare le note
-        noteUpdate(formId, noteId) {
-            axios.put("http://localhost:8000/api/notes/" + noteId, {
-                title: this.formUpdateNotes.title,
-                noteBody: this.formUpdateNotes.noteBody,
-            })
-            .then((response) => {                
-                //Refresho le note esistenti
-                this.notesDataRethrieve();
-
-                //Svuoto tutti i campi del form e del data
-                this.formEntriesReset(this.formUpdateNotes, formId)
-            });
-        },
-
-        //Funzione per svuotare i campi provenienti dai form in data e i form
-        formEntriesReset(dataToReset, formToReset) {
-            //Prendo tutti i form da svuotare
-            const formsToReset = document.getElementsByClassName(formToReset);
-
-            //Svuoto il form
-            for(let i = 0; i < formsToReset.length; i++) {
-                formsToReset[i].reset();
-            }
-
-            //Svuoto i dati provenienti dal form in data
-            for (let singleData in dataToReset) {
-                dataToReset[singleData] = '';
-            }
-        },
-
-        //Funzione che chiude il collapse di modifica di ogni nota all'apertura di un'altra nota
-        closeEveryUpdateCollapse() {
-            //Prendo tutti collapse di modifica
-            const updateCollapseList = document.getElementsByClassName('collapse_update');
-
-            //Tolgo la classe open, se presente, e aggiungo quella close
-            for( let i = 0; i < updateCollapseList.length; i++) {
-                if(updateCollapseList[i].classList.contains('collapse-open')) {
-                    updateCollapseList[i].classList.remove('collapse-open');
-                    updateCollapseList[i].classList.add('collapse-close');
+                //Setto la flag per cambiare l'icona del pulsante del collapse
+                if(this.updateCollapseFlag === false) {
+                    this.updateCollapseFlag = true;
+                } else {
+                    this.updateCollapseFlag = false;
                 }
+            },
+
+            //Funzione per modificare le note
+            noteUpdate(formId, noteId) {
+                axios.put("http://localhost:8000/api/notes/" + noteId, {
+                    title: this.formUpdateNotes.title,
+                    noteBody: this.formUpdateNotes.noteBody,
+                })
+                .then((response) => {                
+                    //Refresho le note esistenti
+                    this.notesDataRethrieve();
+
+                    //Svuoto tutti i campi del form e del data
+                    this.formEntriesReset(this.formUpdateNotes, formId)
+                });
+            },
+
+            //Funzione per svuotare i campi provenienti dai form in data e i form
+            formEntriesReset(dataToReset, formToReset) {
+                //Prendo tutti i form da svuotare
+                const formsToReset = document.getElementsByClassName(formToReset);
+
+                //Svuoto il form
+                for(let i = 0; i < formsToReset.length; i++) {
+                    formsToReset[i].reset();
+                }
+
+                //Svuoto i dati provenienti dal form in data
+                for (let singleData in dataToReset) {
+                    dataToReset[singleData] = '';
+                }
+            },
+
+            //Funzione che chiude il collapse di modifica di ogni nota all'apertura di un'altra nota
+            closeEveryUpdateCollapse() {
+                //Prendo tutti collapse di modifica
+                const updateCollapseList = document.getElementsByClassName('collapse_update');
+
+                //Tolgo la classe open, se presente, e aggiungo quella close
+                for( let i = 0; i < updateCollapseList.length; i++) {
+                    if(updateCollapseList[i].classList.contains('collapse-open')) {
+                        updateCollapseList[i].classList.remove('collapse-open');
+                        updateCollapseList[i].classList.add('collapse-close');
+                    }
+                }
+
+                //Resetto la flag per l'icona del collapse
+                this.updateCollapseFlag = false;
+            },
+
+            //Funzione per aprire o chiudere le modali
+            openOrCloseModal(modalId) {
+                const targetModal = document.getElementById(modalId);
+
+                if(targetModal.hasAttribute(open)) {
+                    targetModal.close();
+                } else {
+                    targetModal.showModal();
+                }
+            },
+
+            //Funzione per eliminare la nota
+            deleteNote(noteTitle, noteId) {
+                //Chiudo la modale di cancellazione
+                this.openOrCloseModal('delete_note_' + noteId + '_modal');
+
+                //Elimino la nota
+                axios.delete("http://localhost:8000/api/notes/" + noteId)
+                .then((response) => {          
+                    //Mostro all'utente un messaggio di conferma         
+                    alert('Nota "' + noteTitle + '" eliminata con successo.');
+
+                    //Refresho le note esistenti
+                    this.notesDataRethrieve();                
+                });
             }
-
-            //Resetto la flag per l'icona del collapse
-            this.updateCollapseFlag = false;
         },
-
-        //Funzione per aprire o chiudere le modali
-        openOrCloseModal(modalId) {
-            const targetModal = document.getElementById(modalId);
-
-            if(targetModal.hasAttribute(open)) {
-                targetModal.close();
-            } else {
-                targetModal.showModal();
-            }
+        created() {
+            this.notesDataRethrieve();
         },
-
-        //Funzione per eliminare la nota
-        deleteNote(noteTitle, noteId) {
-            //Chiudo la modale di cancellazione
-            this.openOrCloseModal('delete_note_' + noteId + '_modal');
-
-            //Elimino la nota
-            axios.delete("http://localhost:8000/api/notes/" + noteId)
-            .then((response) => {          
-                //Mostro all'utente un messaggio di conferma         
-                alert('Nota "' + noteTitle + '" eliminata con successo.');
-
-                //Refresho le note esistenti
-                this.notesDataRethrieve();                
-            });
-        }
-    },
-    created() {
-        this.notesDataRethrieve();
-    },
-    props: [
-        "userData" //Dati utente passati da App.vue
-    ]
-}
+        props: [
+            "userData" //Dati utente passati da App.vue
+        ]
+    }
 </script>
 
 <template>

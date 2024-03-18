@@ -65,6 +65,7 @@ export default {
             <h1 v-if="loginFlag === true" class="text-4xl font-bold">Effettua il login</h1>
             <h1 v-else class="text-4xl font-bold">Crea un account</h1>
 
+            <!-- Form per il login -->
             <form v-if="loginFlag === true" @submit.prevent="submitLogin" class="py-5">
                 <input v-model="formLogin.email" type="text" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
 
@@ -72,6 +73,7 @@ export default {
 
                 <button type="submit" class="form-input btn bg-orange-300 w-full">Login</button>
             </form>
+            <!-- Form per la registrazione -->
             <form v-else @submit.prevent="submitRegister" class="py-5">
                 <input v-model="formRegister.name" type="text" placeholder="Nome" class="input input-bordered w-full mb-2" pattern="(\b[A-ZÀ-ÿ]{1}[\-,a-z. ']+[ ]{1})+$" required>
 
@@ -84,6 +86,7 @@ export default {
                 <button type="submit" class="form-input btn bg-orange-300 w-full">Registrati</button>
             </form>
 
+            <!-- Pulsanti per il cambio di form -->
             <div>
                 <h4>Oppure 
                     <span v-if="loginFlag === true" v-on:click="loginFlag = false" class="font-semibold hover:text-sky-700 hover:cursor-pointer">crea un account</span>
