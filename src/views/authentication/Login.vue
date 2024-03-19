@@ -12,7 +12,11 @@ export default {
                 password: '',
                 password_confirmation: ''
             },
-            loginFlag: true
+            formForgotPassword: { //Campi per il recupero della password
+                email: ''
+            },
+            loginFlag: true,
+            forgotPasswordFlag: false
         }
     },
     methods: {
@@ -54,6 +58,22 @@ export default {
                     });                    
                 });
             });
+        },
+
+        //Funzione per l'invio del form di recupero password
+        submitForgotPassword() {
+            axios.post("http://localhost:8000/forgot-password", {
+                email: this.formForgotPassword.email
+            }).then((response) => {
+                console.log(response.data);
+                
+                //Svuoto il campo del form per il reset della password
+                this.formForgotPassword.email = '';
+            }).catch((error) => { //Catturo l'errore eventuale
+                if(error.response.status == 422) {
+                    alert("L'email fornita non è corretta. Riprovare"); //TODO: sostituire questo alert con un messaggio di errore
+                }
+            });
         }
     }
 }
@@ -62,19 +82,20 @@ export default {
 <template>
     <div class="h-full w-full flex justify-center items-center bg-sky-500">        
         <div class="w-1/3 bg-white rounded-xl text-center p-8">
-            <h1 v-if="loginFlag === true" class="text-4xl font-bold">Effettua il login</h1>
-            <h1 v-else class="text-4xl font-bold">Crea un account</h1>
+            <h1 v-if="loginFlag === true && forgotPasswordFlag === false" class="text-4xl font-bold">Effettua il login</h1>
+            <h1 v-else-if="loginFlag === false && forgotPasswordFlag === false" class="text-4xl font-bold">Crea un account</h1>
+            <h1 v-else-if="forgotPasswordFlag === true" class="text-4xl font-bold">Recupera la password</h1>
 
             <!-- Form per il login -->
-            <form v-if="loginFlag === true" @submit.prevent="submitLogin" class="py-5">
-                <input v-model="formLogin.email" type="text" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
+            <form v-if="loginFlag === true && forgotPasswordFlag === false" @submit.prevent="submitLogin" class="py-5">
+                <input v-model="formLogin.email" type="email" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
 
                 <input v-model="formLogin.password" type="password" placeholder="Password" class="input input-bordered w-full mb-4" minlength="8" maxlength="16" required>
 
                 <button type="submit" class="form-input btn bg-orange-300 w-full">Login</button>
             </form>
             <!-- Form per la registrazione -->
-            <form v-else @submit.prevent="submitRegister" class="py-5">
+            <form v-else-if="loginFlag === false && forgotPasswordFlag === false" @submit.prevent="submitRegister" class="py-5">
                 <input v-model="formRegister.name" type="text" placeholder="Nome" class="input input-bordered w-full mb-2" pattern="(\b[A-ZÀ-ÿ]{1}[\-,a-z. ']+[ ]{1})+$" required>
 
                 <input v-model="formRegister.email" type="text" placeholder="Email" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
@@ -85,10 +106,23 @@ export default {
 
                 <button type="submit" class="form-input btn bg-orange-300 w-full">Registrati</button>
             </form>
+            <!-- Form per il recupero password -->
+            <form v-if="forgotPasswordFlag === true" @submit.prevent="submitForgotPassword" class="py-5">
+                <input v-model="formForgotPassword.email" type="email" placeholder="Inserisci la tua email e clicca 'Invia'" class="input input-bordered w-full mb-2" pattern="[a-z0-9._%+\-]+@{1}[a-z0-9.\-]+\.[a-z]{2,}$" required>
+
+                <button type="submit" class="form-input btn bg-orange-300 w-full">Invia</button>
+            </form>
 
             <!-- Pulsanti per il cambio di form -->
             <div>
-                <h4>Oppure 
+                <h4>                    
+                    <span v-if="loginFlag === true && forgotPasswordFlag === false" v-on:click="forgotPasswordFlag = true" class="font-semibold hover:text-sky-700 hover:cursor-pointer">Password dimenticata?</span>
+                    <span v-if="loginFlag === true && forgotPasswordFlag === true" v-on:click="forgotPasswordFlag = false" class="font-semibold hover:text-sky-700 hover:cursor-pointer">Torna al login</span>
+                </h4>
+
+                <hr class="my-2 border-slate-500">
+
+                <h4 v-if="forgotPasswordFlag === false">Oppure 
                     <span v-if="loginFlag === true" v-on:click="loginFlag = false" class="font-semibold hover:text-sky-700 hover:cursor-pointer">crea un account</span>
                     <span v-else v-on:click="loginFlag = true" class="font-semibold hover:text-sky-700 hover:cursor-pointer">effettua il login</span>
                 </h4>

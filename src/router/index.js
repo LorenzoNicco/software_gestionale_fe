@@ -19,6 +19,11 @@ const routes = [
         component: Login
     },
     {
+        path: '/password-reset',
+        name: 'Password-reset',
+        component: ()=>import('../views/authentication/PasswordReset.vue') //Questa sintassi permette il lazy loading della rotta
+    },
+    {
         path: '/profile',
         name: 'Profile',
         component: Profile
@@ -26,7 +31,7 @@ const routes = [
     {
         path: '/note',
         name: 'Note',
-        component: ()=>import('../views/Notes.vue') //Questa sintassi permette il lazy loading della rotta
+        component: ()=>import('../views/Notes.vue')
     },
 ];
 
