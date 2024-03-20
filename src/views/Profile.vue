@@ -1,8 +1,13 @@
 <script>
+    import ThePageTitle from '../components/ThePageTitle.vue';
+
     export default {
         data() {
             return {
             }
+        },
+        components: {
+            ThePageTitle,
         },
         methods: {
             //Funzione per il logout
@@ -11,24 +16,38 @@
                 this.$router.push("/login");
             }
         },
+        props: [
+            "userData"
+        ],
         mounted() {
         },
-        props: [
-            "userData" //Dati utente passati da App.vue
-        ]
     }
 </script>
 
 <template>
     <div class="profile">
-        <h1 class="text-4xl font-bold">Profilo</h1>
+        <!-- Titolo pagina -->
+        <ThePageTitle title="Profilo"/>
+
+        <div class="card w-1/2 shadow-lg bg-cyan-200 mb-4">
+            <div class="card-body">
+                <div>
+                    <h2 class="card-title inline-block me-3">ID utente:</h2>
+                    <p class="inline-block text-xl">{{ userData.id }}</p>
+                </div>
+                <div>
+                    <h2 class="card-title inline-block me-3">Nome utente:</h2>
+                    <p class="inline-block text-xl">{{ userData.name }}</p>
+                </div>
+                <div>
+                    <h2 class="card-title inline-block me-3">Indirizzo email:</h2>
+                    <p class="inline-block text-xl">{{ userData.email }}</p>
+                </div>
+            </div>
+        </div>
 
         <div>
-            <div>User ID: {{ userData.id }}</div>
-            <div>Email Address: {{ userData.email }}</div>
-            <div>
-                <button @click="signOut" class="btn">Sign Out</button>
-            </div>
+            <button @click="signOut" class="btn btn-error">Sign Out</button>
         </div>
     </div>
 </template>

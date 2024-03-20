@@ -1,22 +1,26 @@
 <script>
-export default {
-    data() {
-        return {
-        }
-    },
-    methods: {
+    import ThePageTitle from '../components/ThePageTitle.vue';
+    export default {
+        data() {
+            return {
+            }
+        },
+        components: {
+            ThePageTitle,
+        },
+        methods: {
 
-    },
-    mounted() {
-    },
-    props: [
-        "userData" //Dati utente passati da App.vue
-    ]
-}
+        },
+        props: [
+            "userData" //Dati utente passati da App.vue
+        ],
+        mounted() {
+        },
+    }
 </script>
 
 <template>
     <div class="home">
-        <h1 class="text-4xl font-bold">Home</h1>
+        <ThePageTitle title="Home"/>
     </div>
 </template>

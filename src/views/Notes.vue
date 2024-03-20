@@ -1,4 +1,6 @@
 <script>
+    import ThePageTitle from '../components/ThePageTitle.vue';
+    
     export default {
         data() {
             return {
@@ -13,6 +15,9 @@
                     noteBody: ''
                 },
             }
+        },
+        components: {
+            ThePageTitle,
         },
         methods: {
             //Funzione per reperire le note esistenti
@@ -135,18 +140,13 @@
         created() {
             this.notesDataRethrieve();
         },
-        props: [
-            "userData" //Dati utente passati da App.vue
-        ]
     }
 </script>
 
 <template>
     <div class="notes relative pb-14">
         <!-- Titolo pagina -->
-        <div class="w-full p-4 rounded-xl bg-orange-300 shadow-md mb-4">
-            <h1 class="text-4xl font-bold">Note</h1>
-        </div>
+        <ThePageTitle title="Note"/>
 
         <div class="w-full">
             <ul>
