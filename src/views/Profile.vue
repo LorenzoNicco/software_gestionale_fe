@@ -29,7 +29,7 @@
         <!-- Titolo pagina -->
         <ThePageTitle title="Profilo"/>
 
-        <div class="card w-1/2 shadow-lg bg-cyan-200 mb-4">
+        <div class="card w-1/2 shadow-lg bg-sky-200 mb-4">
             <div class="card-body">
                 <div>
                     <h2 class="card-title inline-block me-3">ID utente:</h2>

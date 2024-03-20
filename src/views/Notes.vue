@@ -137,6 +137,9 @@
                 });
             }
         },
+        props: [
+            "userData"
+        ],
         created() {
             this.notesDataRethrieve();
         },
@@ -151,7 +154,7 @@
         <div class="w-full">
             <ul>
                 <!-- Elemento della lista delle note -->
-                <li v-for="singleNote in notesData" class="collapse collapse-arrow shadow-md">
+                <li v-for="singleNote in notesData" class="collapse collapse-arrow shadow-md bg-white mb-2">
                     <input type="radio" name="my-accordion-2" v-on:click="closeEveryUpdateCollapse" /> 
 
                     <!-- Titolo della nota -->
