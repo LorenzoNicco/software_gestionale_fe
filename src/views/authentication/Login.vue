@@ -69,6 +69,8 @@ export default {
                 
                 //Svuoto il campo del form per il reset della password
                 this.formForgotPassword.email = '';
+
+                alert("Controlla la tua email per reimpostare la password"); //TODO: sostituire questo alert con un messaggio di notifica
             }).catch((error) => { //Catturo l'errore eventuale
                 if(error.response.status == 422) {
                     alert("L'email fornita non è corretta. Riprovare"); //TODO: sostituire questo alert con un messaggio di errore

@@ -19,7 +19,7 @@ const routes = [
         component: Login
     },
     {
-        path: '/password-reset',
+        path: '/password-reset/:token',
         name: 'Password-reset',
         component: ()=>import('../views/authentication/PasswordReset.vue') //Questa sintassi permette il lazy loading della rotta
     },

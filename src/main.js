@@ -32,9 +32,9 @@ axios.interceptors.response.use(function (response) {
     //     router.push('/403');
     // }
     
-    if ([401, 419].includes(error.request.status)) {
-        // redirect al login
-        router.push('/Login');
+    if ([401, 419].includes(error.request.status) && !window.location.href.includes('password-reset')) {
+        // redirect al login se l'utente non è autenticato o se non sta cercando di recuperare la password
+        router.push('/login');
     }
     return Promise.reject(error);
 });
