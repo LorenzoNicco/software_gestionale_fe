@@ -31,7 +31,9 @@ export default {
                     this.$router.push("/");
                     axios.get("http://localhost:8000/api/user")
                     .then((response)=>{
-                        console.log(response.data);
+                        //Ricarico la pagina per eseguire il metodo di raccolta dati utente da App.vue.
+                        //TODO: trovare metodo alternativo
+                        location.reload();
                     });                    
                 }).catch((error) => { //Catturo l'errore in caso di nome utente o password errati
                     if(error.response.status == 422) {
