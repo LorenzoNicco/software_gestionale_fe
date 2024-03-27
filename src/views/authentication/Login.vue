@@ -28,13 +28,15 @@ export default {
                     email: this.formLogin.email,
                     password: this.formLogin.password
                 }).then(() => {
+                    //Ricarico la pagina per eseguire il metodo di raccolta dati utente da App.vue.
+                    //TODO: trovare metodo alternativo
+                    location.reload();
+
+                    //Reindirizzo alla home
                     this.$router.push("/");
-                    axios.get("http://localhost:8000/api/user")
-                    .then((response)=>{
-                        //Ricarico la pagina per eseguire il metodo di raccolta dati utente da App.vue.
-                        //TODO: trovare metodo alternativo
-                        location.reload();
-                    });                    
+
+                    //Recupero i dati dell'utente
+                    axios.get("http://localhost:8000/api/user")             
                 }).catch((error) => { //Catturo l'errore in caso di nome utente o password errati
                     if(error.response.status == 422) {
                         alert("Nome utente o password errati. Riprovare"); //TODO: sostituire questo alert con un messaggio di errore

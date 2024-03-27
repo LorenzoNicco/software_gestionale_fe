@@ -1,5 +1,7 @@
 <script>
+    //Componenti
     import ThePageTitle from '../components/ThePageTitle.vue';
+
     export default {
         data() {
             return {

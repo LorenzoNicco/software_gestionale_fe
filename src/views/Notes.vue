@@ -1,5 +1,10 @@
 <script>
+    //Componenti
     import ThePageTitle from '../components/ThePageTitle.vue';
+    import TheNotification from "../components/TheNotification.vue";
+    
+    //Composables
+    import { useOpenNotification } from '../composables/openNotification.js';
     
     export default {
         data() {
@@ -18,6 +23,7 @@
         },
         components: {
             ThePageTitle,
+            TheNotification,
         },
         methods: {
             //Funzione per reperire le note esistenti
@@ -68,7 +74,9 @@
                     title: this.formUpdateNotes.title,
                     noteBody: this.formUpdateNotes.noteBody,
                 })
-                .then((response) => {                
+                .then((response) => {       
+                    useOpenNotification({id: 'update-note', notificationType: 'success', message: 'Nota modificata con successo'});
+
                     //Refresho le note esistenti
                     this.notesDataRethrieve();
 
@@ -148,6 +156,9 @@
 
 <template>
     <div class="notes relative pb-14">
+        <!-- Notifiche -->
+        <TheNotification />
+
         <!-- Titolo pagina -->
         <ThePageTitle title="Note"/>
 

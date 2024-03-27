@@ -1,4 +1,5 @@
 <script>
+  //Componenti
   import TheSidebarNavigation from './components/TheSidebarNavigation.vue';
 
   export default {

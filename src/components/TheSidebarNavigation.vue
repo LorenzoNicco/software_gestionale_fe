@@ -2,6 +2,7 @@
     import TheRouterLinkSidebar from './TheRouterLinkSidebar.vue';
 
     export default {
+        name: "TheSidebarNavigation",
         data() {
             return {
                 routesTopMenu: [
