@@ -1,4 +1,7 @@
 <script>
+//Composables
+import { useOpenNotification } from '../../composables/openNotification.js';
+
 export default {
     data() {
         return {
@@ -20,7 +23,7 @@ export default {
                 //Reindirizzo al login
                 this.$router.push("/login");
 
-                alert('La tua password è stata aggiornata correttamente'); //TODO: sostituire questo alert con un messaggio di notifica                  
+                useOpenNotification({ id: 'pw-modificata', bgType: 'bg-success', message: 'La tua password è stata modificata con successo.' });                
             });
         }
     },

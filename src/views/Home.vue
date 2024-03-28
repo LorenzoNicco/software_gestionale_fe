@@ -1,6 +1,7 @@
 <script>
     //Componenti
     import ThePageTitle from '../components/ThePageTitle.vue';
+    import TheNotification from "../components/TheNotification.vue";
 
     export default {
         data() {
@@ -18,6 +19,7 @@
         },
         components: {
             ThePageTitle,
+            TheNotification,
         },
         methods: {
             //Funzione per il conteggio delle note
@@ -39,6 +41,9 @@
 
 <template>
     <div class="home">
+        <!-- Notifiche -->
+        <TheNotification />
+
         <ThePageTitle title="Home"/>
 
         <div class="card bg-white w-full shadow-lg p-4">
